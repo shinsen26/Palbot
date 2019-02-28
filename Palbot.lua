@@ -2,9 +2,9 @@ localPath = scriptPath()
 isTrial = false
 maxTrialTimeout = 3600
 commonLib = loadstring(httpGet("https://raw.githubusercontent.com/AnkuLua/commonLib/master/commonLib.lua"))()
-getNewestVersion = loadstring(httpGet("https://raw.githubusercontent.com/auto-config/Palbot-test/master/version.lua"))
+getNewestVersion = loadstring(httpGet("https://raw.githubusercontent.com/shinsen26/Palbot/master/version.lua"))
 latestVersion = getNewestVersion()
-currentVersion = "1.4.6"
+currentVersion = "1.5"
 print (currentVersion)
 print (latestVersion)
 setDragDropTiming(100, 100)
@@ -538,7 +538,7 @@ function dialogBox()
   newRow()
   spinnerRefillOption = {
     "NO Refills",
-    "Refill Energy with Crystals  "
+    "Refill Energy with Crystals"
   }
   addSpinner("refillOption", spinnerRefillOption, spinnerRefillOption[1])
   addTextView("  (refill options)")
@@ -746,7 +746,7 @@ function runeDialogBox()
   addTextView("1*: ")
   addSpinner("runeRaritySelect1", spinnerRuneRarity1, spinnerRuneRarity1[1])
   newRow()
-  addCheckBox("keepSpdSub", "Always Keep SPD Sub", false)
+  addCheckBox("keepSpdSub", "Only Keep SPD Sub", false)
   newRow()
   spinnerSubPerc = {
     "0%",
@@ -1981,6 +1981,19 @@ function tableLength(T)
     return count
 end
 function runeKeep4 ()
+  if subMatch < nonFlatSub then
+    sellingRune = true
+    keepSell = "Selling Rune"
+    runeKeep5 ()
+  elseif keepSpdSub == true and mainStat == ("SPD") then
+    sellingRune = false
+    keepSell = "Keeping Rune"
+    runeKeep5 ()
+  else
+    runeKeep6 ()
+  end
+end
+function runeKeep6 ()
   if keepSpdSub == true and subSpeed == true then
     sellingRune = false
     keepSell = "Keeping Rune"
@@ -1988,14 +2001,6 @@ function runeKeep4 ()
   elseif keepSpdSub == true and subSpeed == false then
     sellingRune = true
     keepSell = "Selling Rune"
-    runeKeep5 ()
-  elseif subMatch < nonFlatSub then
-    sellingRune = true
-    keepSell = "Selling Rune"
-    runeKeep5 ()
-  elseif keepSpdSub == true and mainStat == ("SPD") then
-    sellingRune = false
-    keepSell = "Keeping Rune"
     runeKeep5 ()
   else
     sellingRune = false
