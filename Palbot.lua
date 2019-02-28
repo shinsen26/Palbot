@@ -2,8 +2,9 @@ localPath = scriptPath()
 isTrial = false
 maxTrialTimeout = 3600
 commonLib = loadstring(httpGet("https://raw.githubusercontent.com/AnkuLua/commonLib/master/commonLib.lua"))()
-latestVersion = "1.0"
-currentVersion = "1.0"
+getNewestVersion = loadstring(httpGet("https://raw.githubusercontent.com/auto-config/Palbot-test/master/version.lua"))
+latestVersion = getNewestVersion()
+currentVersion = "1.4.6"
 print (currentVersion)
 print (latestVersion)
 setDragDropTiming(100, 100)
@@ -22,7 +23,10 @@ runeRarityImages = {"runeLegendary.png", "runeHero.png", "runeRare.png", "runeMa
 function automaticUpdates ()
   if autoUpdate == true then
     if currentVersion == latestVersion then
+      toast("Already Up-to-date")
     else
+      httpDownload("https://raw.githubusercontent.com/shinsen26/Palbot/master/Palbot.lua", localPath .."Palbot.lua")
+      scriptExit("You have Updated Palbot!")
     end
   end
 end
